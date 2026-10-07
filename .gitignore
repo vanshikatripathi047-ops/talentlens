@@ -24,3 +24,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Project-local PostgreSQL runtime and data
+.local/
