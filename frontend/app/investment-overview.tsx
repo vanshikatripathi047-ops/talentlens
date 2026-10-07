@@ -36,7 +36,7 @@ export default function InvestmentOverview({ creators, campaigns, saved, reach, 
       ].map(([label, value, note, index]) => <section key={label}><div><span>{label}</span><small>{index}</small></div><strong>{value}</strong><p>{note}</p></section>)}
     </div>
 
-    <div className="lx-intelligence-heading"><div><span className="lx-section-index">01 / CREATOR INTELLIGENCE</span><h2>Where influence meets investment.</h2></div><button className="co-text" onClick={onDiscover}>Explore the directory <ArrowUpRight size={17} /></button></div>
+    <div className="lx-intelligence-heading"><div><span className="lx-section-index">01 / CREATOR INTELLIGENCE</span><h2>Creator investment</h2></div><button className="co-text" onClick={onDiscover}>Explore the directory <ArrowUpRight size={17} /></button></div>
     <div className="lx-intelligence">
       <section className="lx-map-section" aria-label="Creator investment map">
         <div className="lx-map-head"><div><Crosshair size={18} /><span>Investment map</span></div><div className="lx-platform-tabs" aria-label="Map platform">{["All", "Instagram", "YouTube"].map((value) => <button key={value} aria-pressed={platform === value} onClick={() => setPlatform(value)}>{value}</button>)}</div></div>

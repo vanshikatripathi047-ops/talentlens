@@ -16,7 +16,7 @@ async function main() {
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.goto("http://localhost:3000", { waitUntil: "domcontentloaded" });
-    await page.getByRole("heading", { name: "Good partnerships start with clarity." }).waitFor({ timeout: 60000 });
+    await page.getByRole("heading", { name: "Partnership overview" }).waitFor({ timeout: 60000 });
     const demo = await context.request.get("http://localhost:3000/api/demo");
     assert.equal(demo.status(), 200);
     const data = await demo.json();
@@ -27,6 +27,14 @@ async function main() {
     assert.equal(data.creators[0].ideas.length, 2);
     await page.waitForFunction(() => Array.from(document.images).every((image) => image.complete), null, { timeout: 60000 });
     assert.equal(await page.evaluate(() => Array.from(document.images).every((image) => image.naturalWidth > 0)), true, "Sample media failed to load.");
+    assert.equal(await page.locator(".co-sidebar").evaluate((element) => getComputedStyle(element).backgroundColor), "rgb(32, 32, 32)");
+    const primary = page.locator(".co-primary").first();
+    await primary.hover();
+    await page.waitForFunction(() => getComputedStyle(document.querySelector(".co-primary")).transform === "matrix(1, 0, 0, 1, 0, -2)");
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    assert.equal(await primary.evaluate((element) => getComputedStyle(element).transitionDuration), "0s");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.mouse.move(0, 0);
     await page.screenshot({ path: path.join(output, "company-desktop.png"), fullPage: true, animations: "disabled" });
     await page.setViewportSize({ width: 390, height: 844 });
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
